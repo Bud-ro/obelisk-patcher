@@ -1,5 +1,5 @@
 {
-  "_comment": "Player-preference toggles baked into a save by apply_options.py. Values captured from a maxed reference setup; no personal data. single_vars are named keys; options/in_menu_options are the array-packed isOption_<n>/isInMenu_<n> toggles the game's Options menu writes.",
+  "_comment": "Player-preference toggles baked into a save by apply_options.py. Captured from a reference maxed setup; no personal data. single_vars are named keys; options/in_menu_options are the array-packed isOption_<n>/isInMenu_<n> toggles the game's Options menu writes. isMusic/isSfx = 0 means muted.",
   "single_vars": {
     "isMusic": 0,
     "isSfx": 0,
@@ -8,6 +8,7 @@
     "is_modifiers_expanded": 1
   },
   "options": {
+    "isOption_0": 1,
     "isOption_44": 1,
     "isOption_51": 1,
     "isOption_58": 1,
