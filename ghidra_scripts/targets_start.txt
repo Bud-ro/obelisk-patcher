@@ -1,0 +1,7 @@
+^gml_Object_controllerSaveManager_
+^gml_Object_objLoading_
+^gml_Object_cloud_save_controller_Create_0$
+^gml_Object_obj_startup_message_box_Create_0$
+^gml_Object_controllerMainUi_Create_0$
+^gml_Object_objMenuHub_Create_0$
+^gml_Object_controllerLegal_

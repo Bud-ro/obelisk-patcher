@@ -1,0 +1,6 @@
+^gml_Script_set_up_catspeak_env$
+^gml_Script_run_installed_patches$
+^gml_Script_catspeak_execute$
+^gml_Script_upsert_patch$
+^gml_Script_write_patches_file$
+^gml_Script_catspeak_force_init$

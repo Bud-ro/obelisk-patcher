@@ -1,0 +1,3 @@
+^gml_GlobalScript_sfSaveLoad$
+^gml_Object_controllerSaveManager_Other_10$
+^gml_Object_controllerSaveManager_Create_0$

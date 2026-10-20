@@ -1,0 +1,6 @@
+_40___catspeak_get_gml_interface
+^gml_Script___catspeak_get_gml_interface$
+^gml_Script_load_live_patch_from_file$
+^gml_Object_objMenu14_
+check_vk_enter_and_trim_string
+^gml_Script_catspeak_

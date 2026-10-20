@@ -1,0 +1,2 @@
+^gml_Script_get_vip_points$
+^gml_Script_get_vip_points_for_x_tier$

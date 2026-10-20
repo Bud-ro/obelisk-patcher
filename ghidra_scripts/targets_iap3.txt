@@ -1,0 +1,14 @@
+_40_add_all_iaps
+_40_new_iap_system
+^gml_Script_funTickDoomsday$
+^gml_Script_funUnfuckSave$
+^gml_Script_funCompleteGame$
+^gml_Script_funSetVariables2$
+_40_gml_Object_controllerDev_Create_0
+^gml_Script_update_current_client_data$
+^gml_Script_funUpdateBank$
+^gml_Script_get_iap_price$
+^gml_Script_funGetNumOfSkinsOwned$
+^FUN_0196900c$
+^FUN_0198e008$
+^FUN_019a600c$

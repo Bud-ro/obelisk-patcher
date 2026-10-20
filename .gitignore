@@ -1,0 +1,56 @@
+# Your own copy of the game — never commit game code/assets
+input/
+build/
+
+# Saves contain personal identifiers (player id, guid, name, install date)
+saves/
+*.ab
+*.dat
+
+# Ghidra projects, exports, and decompiled game source (derivative of the game)
+ghidra/
+ghidra2/
+ghidra3/
+ghidra3b/
+ghidra3c/
+ghidra_home/
+ghidra_out*/
+ghidra_out_init/
+sum/
+*.rep
+*.gpr
+
+# Compiled Java helper artifacts
+tools/sign/*.class
+*.class
+*.o
+
+# Harness / editor
+.claude/
+.venv/
+.idea/
+.vscode/
+
+# Scratch
+*.log
+strings.txt
+scripts.txt
+objects.txt
+relocs.txt
+init_array_targets.txt
+
+# Home/editor dotfiles that live in this working dir (not part of the mod)
+/.bashrc
+/.bash_profile
+/.profile
+/.zshrc
+/.zprofile
+/.gitconfig
+/.gitmodules
+/.mcp.json
+/.ripgreprc
+/.idea
+/.vscode
+
+# Bundled third-party tool binaries — fetch these yourself
+tools/apktool/

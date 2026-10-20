@@ -1,0 +1,16 @@
+@add_all_iaps
+@new_iap_system
+@funIapSetValuePackInfo
+@funIapSetPerkBundles
+@set_vip_benefits
+^gml_Script_refresh_menu7$
+^gml_Object_objMenu7_Create_0$
+^gml_Script_funSave$
+^gml_Script_funLoad$
+^gml_Script_funLoadOld$
+^gml_Script_store_save$
+^gml_Script_fetch_save$
+^gml_Script_funIsNoUpgradesBought$
+^gml_Script_funStarsReturnNumberUnlocked$
+^gml_Script_upg_buy$
+^gml_Script_do_we_have_the_currencies_to_buy_this$

@@ -1,0 +1,15 @@
+^gml_Script_funGetGems$
+^gml_Script_funGetCrackers$
+^gml_Script_funGetItemSpecific$
+^gml_Script_funGetBlueCows$
+^gml_Script_funGetSkillPoints$
+^gml_Script_funGetFuel$
+^gml_Script_funGetRelicChest$
+^gml_Script_funGetMythicChests$
+^gml_Script_funGetDivineChests$
+^gml_Script_update_var$
+^gml_Script_popup$
+^gml_Script____struct___60_40_verify_and_normalize_patch_struct_40_networking_functions$
+^gml_Script_Install_run_location_to_string$
+^gml_Script_funDS$
+^gml_Script_funGetItemChests$

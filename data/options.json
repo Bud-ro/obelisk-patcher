@@ -1,0 +1,19 @@
+{
+  "_comment": "Player-preference toggles baked into a save by apply_options.py. Values captured from a maxed reference setup; no personal data. single_vars are named keys; options/in_menu_options are the array-packed isOption_<n>/isInMenu_<n> toggles the game's Options menu writes.",
+  "single_vars": {
+    "isMusic": 0,
+    "isSfx": 0,
+    "is_chain_bomb_abbreviated": 1,
+    "is_quest_expanded": 1,
+    "is_modifiers_expanded": 1
+  },
+  "options": {
+    "isOption_44": 1,
+    "isOption_51": 1,
+    "isOption_58": 1,
+    "isOption_59": 1
+  },
+  "in_menu_options": {
+    "isInMenu_4": 1
+  }
+}

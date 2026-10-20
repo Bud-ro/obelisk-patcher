@@ -1,0 +1,12 @@
+^gml_Object_objNetworking_
+^gml_Object_controllerFrozenServerPing_
+^gml_Script_check_connection_to_wss
+^gml_Script_send_packet$
+^gml_Script_send_packet_no_reply$
+^gml_Script_send_claim_code_packet$
+^gml_Script_send_ready_for_live_patches$
+^gml_Object_oAsyncWrapperNetworking_
+^gml_Script_package_functions$
+^gml_Script_handle_update_patch_list$
+^gml_Script_catspeak_execute$
+^gml_Script_catspeak_execute_ext$
