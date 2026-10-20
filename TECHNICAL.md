@@ -96,3 +96,23 @@ flag -> a startup patch can't durably mark a code claimed -> can't be made idemp
 (.rodata 0x953b50 + 0x96c8ff, sign_test does NOT gate loading) replaced + self-signed patches.dat; not used.
 
 Still online (user scoped removal to codes): wss cloud save, server time, refunds, AppsFlyer/Sentry telemetry, server live-patch channel.
+
+## Anti-cheat / flagging
+The game has a client-side soft-penalty anti-cheat: globals `am_i_cheating` (compared to 0 in
+loot/roll functions: funRollRocks, funCardsRollForCard, funPetRollForLevelUp, fun_roll_gift_loot,
+etc. -> nerfed luck), `doomsday_counter` (persisted countdown, ticked by funTickDoomsday), and
+`my_flag`. funUnfuckSave resets them to the clean state (-1 / "fish_stage_a"). There is NO local
+setter for these flags anywhere in the code; they are raised only by (a) the server over the
+live-patch / `update_variable` channel (Catspeak `update_var` is the sink) and (b) the method-ref
+`funInstantCheatFlag` (sets doomsday_counter=3). Shadow validators (validRelic/validMythic/
+validDivine/gemlimitnaughtynaughty/isCompletionPercentTooHigh/tastyValidator) are runtime-only,
+not stored in the save.
+
+Disabled in profile "founder":
+- funInstantCheatFlag -> return-undefined stub (local flagger).
+- update_var -> stub (no local game callers; blocks server variable injection incl. the flags).
+- handle_live_patch_package -> stub (blocks server-pushed Catspeak patches / remote code).
+- funLoad: doomsday_counter forced to -1 on every load (fmov d8,#-1.0 at the load site).
+am_i_cheating is runtime-only and inits clean each session, so with the set-paths blocked it
+stays 0. NOTE: server-SIDE detection from uploaded cloud-save data is outside client control; it
+is only avoidable by turning cloud save off (not done, per scope).

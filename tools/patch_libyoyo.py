@@ -15,6 +15,7 @@ import struct, sys
 # (vaddr, old bytes, new bytes, description)   .text file offset == vaddr for this ELF
 FMOV_D8_D0   = bytes.fromhex("0840601e")   # fmov d8, d0
 FMOV_D8_ONE  = bytes.fromhex("08106e1e")   # fmov d8, #1.0
+FMOV_D8_NEG1 = bytes.fromhex("08107e1e")   # fmov d8, #-1.0
 
 PATCHES_BASE = [
     (0x1b28124, FMOV_D8_D0, FMOV_D8_ONE, "funLoad: valuePack_N -> 1.0"),
@@ -26,6 +27,11 @@ PATCHES_BASE = [
 # founder supply drops, VIP benefits). Same fmov trick at the isFounder read site.
 PATCHES_FOUNDER = PATCHES_BASE + [
     (0x1b3b2d4, FMOV_D8_D0, FMOV_D8_ONE, "funLoad: isFounder -> 1.0"),
+    # Anti-cheat: force doomsday_counter to -1 (clean) on every load. The cheat
+    # flags (am_i_cheating / doomsday_counter / my_flag) have no local setter; they
+    # drive a hidden loot-roll penalty and are set only by the server channel or the
+    # method-ref funInstantCheatFlag (both stubbed below).
+    (0x1b29bc0, FMOV_D8_D0, FMOV_D8_NEG1, "funLoad: doomsday_counter -> -1.0 (clean)"),
 ]
 
 # Function-body stubs: overwrite a function's start with a "return undefined" stub.
@@ -45,6 +51,17 @@ STUBS_FOUNDER = [
     # Max founder tier.
     (0x1bf3cc4, bytes.fromhex("ff8301d1"), VIP_POINTS_MAX_STUB,
      "get_vip_points -> 1e8 (max founder tier, all lounge buffs)"),
+    # Anti-cheat: neuter every path that can raise a cheat flag.
+    # funInstantCheatFlag sets doomsday_counter=3 (the local flagger).
+    (0x19ade5c, bytes.fromhex("ff4301d1"), RETURN_UNDEF_STUB,
+     "funInstantCheatFlag -> no-op (local cheat flagger)"),
+    # update_var is the sink for server 'update_variable' pushes and live-patch
+    # Catspeak; no local game code calls it, so stubbing blocks remote flag-setting.
+    (0x15cfc54, bytes.fromhex("e923b96d"), RETURN_UNDEF_STUB,
+     "update_var -> no-op (blocks server variable injection)"),
+    # handle_live_patch_package runs server-pushed Catspeak; blocks remote code too.
+    (0x15c3f18, bytes.fromhex("e80f19fc"), RETURN_UNDEF_STUB,
+     "handle_live_patch_package -> no-op (blocks server live patches)"),
 ]
 
 PROFILES = {"base": PATCHES_BASE, "founder": PATCHES_FOUNDER}
