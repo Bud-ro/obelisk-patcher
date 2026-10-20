@@ -2,8 +2,15 @@
 # BlueStacks / Android helper for the save backup-edit-restore loop.
 #   bs.sh backup  <name>     -> saves/<name>.ab  (+ unpacked to saves/<name>/)
 #   bs.sh restore <name>     -> restores saves/<name>.ab (repacks saves/<name>/ first if present)
-#   bs.sh install <dir>      -> uninstall game, install-multiple all apks in <dir>
+#   bs.sh install <dir>      -> reinstall the apks in <dir>, RETAINING the current save
+#                               (add --wipe to install fresh instead)
 #   bs.sh launch | stop | shot <png> | tap "<button text regex>"
+#
+# Named save slots: `backup`/`restore` take a slot name, so you can keep more than
+# one save. To swap to a secondary save:
+#     bs.sh backup slotA     # stash whatever is live as "slotA"
+#     bs.sh restore slotB    # load a previously stashed "slotB" (fresh start: --wipe install)
+# `install` always preserves the live save, so reinstalling a new patch never wipes it.
 #
 # Config via environment (all optional):
 #   ADB      path to the adb binary (default: adb on PATH). On WSL targeting
@@ -62,12 +69,32 @@ case "${1:-}" in
     tap_button 'restore my data'
     sleep 8; cat "$HERE/saves/$n.restore.log"
     ;;
-  install)
-    d=$2; rm -rf "$WIN/apk"; mkdir -p "$WIN/apk"; cp "$d"/*.apk "$WIN/apk/"
+  install)   # install <apkdir> [--wipe]
+    # RETAINS the current save by default: back up -> uninstall -> install -> restore.
+    # Pass --wipe to install fresh and discard the current save.
+    d=$2; wipe=0; [ "${3:-}" = "--wipe" ] && wipe=1
+    preserved=0
+    if [ $wipe -eq 0 ] && $A $B shell pm path $PKG >/dev/null 2>&1; then
+      echo "retaining current save (back up -> reinstall -> restore)..."
+      "$0" backup _preinstall >/dev/null 2>&1
+      [ -f "$HERE/saves/_preinstall/apps/$PKG/f/save.dat" ] && preserved=1
+      [ $preserved -eq 1 ] && echo "  current progress saved" \
+        || echo "  WARNING: could not back up current save; continuing (use --wipe to silence)"
+    fi
+    rm -rf "$WIN/apk"; mkdir -p "$WIN/apk"; cp "$d"/*.apk "$WIN/apk/"
     adb shell am force-stop $PKG; adb uninstall $PKG
     args=""; for f in "$WIN/apk"/*.apk; do args="$args $WINP${SEP}apk$SEP$(basename "$f")"; done
     timeout 300 $A $B install-multiple $args
     adb shell pm path $PKG | head -2
+    if [ $preserved -eq 1 ]; then
+      # If the new APKs are signed with a different key than the old install, the
+      # backup's recorded cert won't match and restore is rejected; point SIGN_CERT
+      # at a hex DER of the new signing cert to rewrite it. Same-key reinstall needs none.
+      [ -n "${SIGN_CERT:-}" ] && [ -f "${SIGN_CERT}" ] && \
+        python3 -I "$HERE/tools/fix_manifest.py" "$HERE/saves/_preinstall" "${SIGN_CERT}" >/dev/null 2>&1
+      echo "restoring your save..."
+      "$0" restore _preinstall >/dev/null 2>&1 && echo "  save restored"
+    fi
     ;;
   launch) adb shell "monkey -p $PKG -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 5; ps -A | grep -c $PKG" ;;
   stop)   adb shell am force-stop $PKG ;;

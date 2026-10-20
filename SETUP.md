@@ -92,6 +92,26 @@ adb install-multiple build/release/base.apk \
 
 Launch the game once so it creates a save, then close it.
 
+### Reinstalling a new patch later
+
+`adb install-multiple` over an existing install can wipe the app's data (your save).
+Use the helper instead, which backs up the current save, reinstalls, and restores it:
+
+```bash
+tools/bs.sh install build/release          # retains the current save
+tools/bs.sh install build/release --wipe   # only if you want a fresh start
+```
+
+### Running more than one save
+
+`backup`/`restore` take a slot name, so you can keep several saves and switch between
+them. `install` always preserves whichever save is live.
+
+```bash
+tools/bs.sh backup main       # stash the current save as "main"
+tools/bs.sh restore alt       # load a previously stashed "alt" save
+```
+
 ## 5. Apply options and redeem eligible codes to your save
 
 The native patch already gives you the packs, founder status, and max tier. These last
