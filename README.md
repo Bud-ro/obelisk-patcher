@@ -43,7 +43,7 @@ with everything.
 For personal, offline use with a copy of the game you already have. Enabling paid features
 without paying breaks the game's terms of service; only do this with your own install.
 This repo contains no game code, assets, or saves — just patch offsets and tooling.
-Commits are made under the pseudonymous `obelisk-patcher` identity.
+Released under the [MIT License](LICENSE).
 
 See [SETUP.md](SETUP.md) to build and install, and [TECHNICAL.md](TECHNICAL.md) for how the
 patches were found and what each one does.
