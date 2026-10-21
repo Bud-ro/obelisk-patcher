@@ -1,0 +1,6 @@
+^gml_Script_funUpdateBank$
+^gml_Script_funRollRocks$
+^gml_Script_funTickDoomsday$
+^gml_Script_funSetVariables$
+^gml_Script_fun_roll_gift_loot$
+^gml_Script_funCardsRollForCard$

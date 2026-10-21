@@ -1,4 +1,4 @@
-# Obelisk Miner — Pay-to-Win Removal Mod
+# obelisk-patcher
 
 A toolkit that patches the Android build of **Obelisk Miner** (`com.checkbox.minershminer`)
 so its pay-to-win features are simply *on*, unlocked the moment their normal in-game
@@ -42,7 +42,8 @@ with everything.
 
 For personal, offline use with a copy of the game you already have. Enabling paid features
 without paying breaks the game's terms of service; only do this with your own install.
-This repo contains no game code or assets — just patch offsets and tooling.
+This repo contains no game code, assets, or saves — just patch offsets and tooling.
+Commits are made under the pseudonymous `obelisk-patcher` identity.
 
 See [SETUP.md](SETUP.md) to build and install, and [TECHNICAL.md](TECHNICAL.md) for how the
 patches were found and what each one does.

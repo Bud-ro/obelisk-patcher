@@ -1,4 +1,4 @@
-# Obelisk Miner (com.checkbox.minershminer) — reverse-engineering notes
+# obelisk-patcher — reverse-engineering notes for Obelisk Miner (com.checkbox.minershminer)
 
 Source: `input/Obelisk_Miner_base.apk` (v2.2.30, build "MinersIdle4", GM runtime data in `assets/game.droid`).
 Extracted to `input/extracted/`. String table dumped to `input/strings.txt`, script names to `input/scripts.txt`, objects to `input/objects.txt`.
@@ -20,7 +20,6 @@ Extracted to `input/extracted/`. String table dumped to `input/strings.txt`, scr
 ## Save format
 - Files: `SaveNew.txt` (+ `SaveNew.txt.bkb` backup), legacy `Save.dat`, `saveSteam.dat`; export = `Idle_Obelisk_Miner_Backup_*.txt`.
 - `encrypt_save_string` / `decrypt_save_string` wrap it; algorithm unknown until we see libyoyo.so or a sample save.
-  Candidate key material string: `salgiuhgiouhgoh498thorgvagfoiafygeygfiya4gyaglidgh` (STRG 11434, next to FOUNDER/CURRENCY).
 - Save keys of interest: `valuepacks`/`valuePack_N`, `perks`/`perk_N`, `gem_unlocks`/`gemUnlock_N`,
   `gem_upgrades`/`gemUpgrade_N`, `gem_perks`/`gemPerk_N`, `gems`, `founder_counter`, `is_pet_skin_a_owned_`, `gift_codes`.
 

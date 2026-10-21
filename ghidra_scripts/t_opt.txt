@@ -1,0 +1,3 @@
+^gml_Script_funDrawOptionSelection$
+^gml_Object_objMenu14_Step_0$
+^gml_Object_objMenu14_Draw_0$
