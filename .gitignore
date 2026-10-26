@@ -54,3 +54,5 @@ init_array_targets.txt
 
 # Bundled third-party tool binaries — fetch these yourself
 tools/apktool/
+
+.DS_Store

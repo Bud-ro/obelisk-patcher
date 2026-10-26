@@ -52,25 +52,23 @@ keytool -genkeypair -v -keystore build/debug.keystore -storepass android \
         -dname "CN=Obelisk Mod"
 ```
 
-Put the patched `libyoyo.so` back into the arm64 split and sign every split with the
-same key (splits must share a signature):
+Put the patched `libyoyo.so` back into the arm64 split, apply the raw AXML patch
+to `base.apk` so the rebuilt build is in debug mode (`android:debuggable="true"`),
+and sign every split with the same key (splits must share a signature):
 
 ```bash
-python3 - <<'PY'
-import zipfile, shutil
-src, dst = "input/split_config.arm64_v8a.apk", "build/split_config.arm64_v8a.unsigned.apk"
-zin = zipfile.ZipFile(src); zout = zipfile.ZipFile(dst, "w")
-for i in zin.infolist():
-    if i.filename.startswith("META-INF/"): continue   # drop old signature
-    data = open("build/patched/libyoyo.so","rb").read() if i.filename=="lib/arm64-v8a/libyoyo.so" else zin.read(i.filename)
-    ni = zipfile.ZipInfo(i.filename, date_time=i.date_time); ni.compress_type=i.compress_type; ni.external_attr=i.external_attr
-    zout.writestr(ni, data)
-zout.close()
-PY
+# Apply raw AXML patch to base.apk so the build is debuggable
+python3 tools/patch_manifest.py input/base.apk build/base.unsigned.apk
+
+# Repack the arm64 split with patched libyoyo.so
+python3 -c 'from tools.patch_manifest import rezip
+rezip("input/split_config.arm64_v8a.apk", "build/split_config.arm64_v8a.unsigned.apk",
+      {"lib/arm64-v8a/libyoyo.so": open("build/patched/libyoyo.so", "rb").read()})'
 
 mkdir -p build/release
 for f in base split_config.arm64_v8a split_config.en split_config.xxhdpi; do
   SRC="input/$f.apk"
+  [ "$f" = base ] && SRC="build/base.unsigned.apk"
   [ "$f" = split_config.arm64_v8a ] && SRC="build/split_config.arm64_v8a.unsigned.apk"
   zipalign -p -f 4 "$SRC" "build/release/$f.aligned.apk"
   apksigner sign --ks build/debug.keystore --ks-pass pass:android \
@@ -79,6 +77,8 @@ for f in base split_config.arm64_v8a split_config.en split_config.xxhdpi; do
 done
 rm -f build/release/*.aligned.apk build/release/*.idsig
 ```
+
+*(Alternatively, run `tools/repack.sh` which executes all of the above steps).*
 
 ## 4. Install
 
